@@ -13,6 +13,7 @@ from typing import Any, Literal
 import httpx
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
 from qdrant_client import QdrantClient
@@ -414,3 +415,6 @@ def saic_chat(request: SaicChatRequest) -> SaicChatResponse:
         memory_saved=memory_saved,
         agent_source=source,
     )
+# Serve static files
+from fastapi.staticfiles import StaticFiles
+app.mount("/", StaticFiles(directory="public", html=True), name="static")
