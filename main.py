@@ -415,6 +415,9 @@ def saic_chat(request: SaicChatRequest) -> SaicChatResponse:
         memory_saved=memory_saved,
         agent_source=source,
     )
+#from fastapi.staticfiles import StaticFiles
+from pathlib import Path
+
 # Serve static files
-from fastapi.staticfiles import StaticFiles
-app.mount("/", StaticFiles(directory="public", html=True), name="static")
+if Path("public").exists():
+    app.mount("/", StaticFiles(directory="public", html=True), name="static")

@@ -116,12 +116,6 @@
             background: #ccc;
             cursor: not-allowed;
         }
-        
-        .loading {
-            text-align: center;
-            color: #999;
-            font-size: 12px;
-        }
     </style>
 </head>
 <body>
@@ -159,12 +153,10 @@
             const message = messageInput.value.trim();
             if (!message) return;
 
-            // Show user message
             addMessage(message, "user");
             messageInput.value = "";
             sendBtn.disabled = true;
 
-            // Show loading
             const loadingId = "loading-" + Date.now();
             addMessage("⏳ Analyzing incident...", "bot", loadingId);
 
@@ -183,24 +175,12 @@
                 });
 
                 const data = await response.json();
-                
-                // Remove loading message
                 const loadingEl = document.getElementById(loadingId);
                 if (loadingEl) loadingEl.remove();
 
                 if (response.ok) {
                     const answer = JSON.parse(data.answer);
-                    const response_text = `
-📊 **Incident Analysis**
-Root Cause: ${answer.root_cause}
-Status: ${answer.status}
-Confidence: ${(answer.confidence * 100).toFixed(0)}%
-
-${answer.final_outcome || ""}
-
-Actions: ${answer.remediation_actions?.join(", ") || "None"}
-                    `.trim();
-                    
+                    const response_text = `📊 Root Cause: ${answer.root_cause}\nStatus: ${answer.status}\nConfidence: ${(answer.confidence * 100).toFixed(0)}%\n\n${answer.final_outcome || ""}`;
                     addMessage(response_text, "bot");
                 } else {
                     addMessage("❌ Error: " + (data.detail || "Unknown error"), "bot");
