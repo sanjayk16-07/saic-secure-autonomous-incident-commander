@@ -1,58 +1,109 @@
-# saic-secure-autonomous-incident-commander
-SAIC is a secure autonomous incident commander for simulated DevOps incident triage, memory retrieval, and safe remediation using Lyzr and Qdrant.
+```markdown
+# SAIC - Secure Autonomous Incident Commander
 
+An AI-powered incident response system for safe DevOps incident triage, memory retrieval, and intelligent remediation recommendations in a fully simulated environment.
 
-# Secure Autonomous Incident Commander (SAIC)
+## 🎯 Project Purpose
 
-Secure Autonomous Incident Commander (SAIC) is an AI agent for safe DevOps incident triage and remediation in a fully simulated environment. It observes telemetry, retrieves incident memory, reasons over the situation, validates safety, and returns a structured response.
+SAIC helps DevOps teams investigate production incidents safely by analyzing incident reports with AI reasoning, retrieving relevant historical incidents from memory, suggesting remediation steps without touching real systems, and learning from past incidents for better future responses.
 
-## Project Purpose
+## ✨ Features
 
-SAIC is designed to help investigate incidents safely, use past incident memory for context, and suggest or simulate remediation steps without touching real production systems.
+- Real-time incident analysis with Lyzr AI
+- Vector-based incident memory with Qdrant
+- Safety validation for simulated-only operations
+- Structured JSON responses for integration
+- Interactive web UI for incident reporting
+- RESTful API for programmatic access
+- Render cloud deployment ready
 
-## Features
+## 🏗️ Architecture
 
-- Incident triage
-- Memory retrieval from Qdrant
-- Safe simulated remediation workflow
-- Structured JSON responses
-- Lyzr agent integration
-- Render deployment support
+**Tech Stack:** FastAPI backend, Lyzr Agent API for AI reasoning, Qdrant Cloud for vector memory storage, Render.com for hosting, HTML/CSS/JavaScript frontend.
 
-## How It Works
+SAIC follows this workflow: Report → Analyze → Retrieve Context → Reason → Validate → Recommend → Learn
 
-SAIC follows this lifecycle:
+## 🚀 Quick Start
 
-`Observe -> Investigate -> Retrieve -> Reason -> Validate -> Act -> Verify -> Learn`
+```bash
+git clone https://github.com/sanjayk16-07/saic-secure-autonomous-incident-commander
+cd saic-agent
+pip install -r requirements.txt
+cp .env.example .env
+# Add your Lyzr API key and Qdrant Cloud credentials
+python -m uvicorn main:app --reload
+```
 
-## Architecture
+Visit: `http://localhost:8000` or `https://saic-agent.onrender.com`
 
-- **Lyzr**: agent reasoning and orchestration
-- **Qdrant**: incident memory and retrieval
-- **FastAPI**: backend API
-- **Render**: backend hosting
-- **Thunder Client / API client**: testing endpoints
+## 📡 API Endpoints
 
-## API Endpoints
+**Health Check:** `GET /health`
 
-### Health
-`GET /health`
+**Get Status:** `GET /api/v1/saic/status`
 
-### Seed Memory
-`POST /api/v1/saic/seed`
+**Seed Memory:** `POST /api/v1/saic/seed`
 
-### Chat
-`POST /api/v1/saic/chat`
+**Chat/Analyze Incident:** `POST /api/v1/saic/chat`
 
-## Example Request: Seed
-
+Example request:
 ```json
 {
-  "content": "Incident INC-001: checkout latency increased after deploy.",
+  "message": "Database connection timeout on payment service",
   "session_id": "saic-demo-001",
   "user_id": "ksanj",
   "incident_id": "INC-001",
   "service_name": "checkout",
-  "environment": "simulation",
-  "source": "manual"
+  "environment": "simulation"
 }
+```
+
+## 🔧 Configuration
+
+Set environment variables in `.env`:
+- `LYZR_API_KEY` - Your Lyzr API key
+- `LYZR_AGENT_ID` - Your Lyzr agent ID
+- `LYZR_CHAT_URL` - https://agent-prod.studio.lyzr.ai/v3/inference/chat/
+- `QDRANT_MODE` - remote
+- `QDRANT_URL` - Your Qdrant Cloud URL
+- `QDRANT_API_KEY` - Your Qdrant API key
+
+## 📝 Example Incidents to Test
+
+1. "Database connection timeout on payment service"
+2. "API response time increased 500% after latest deploy"
+3. "Memory leak detected consuming 95% RAM"
+4. "Sudden spike in 5xx errors on auth service"
+5. "Cache miss rate jumped from 2% to 45%"
+
+## 🔐 Security
+
+- Simulated-only mode (never executes real remediation)
+- Local safety gate validation
+- API key protection via environment variables
+- Qdrant Cloud encryption
+- CORS-enabled for web UI
+
+## 📚 Technology Decisions
+
+**Lyzr AI:** Provides advanced reasoning and natural language understanding for incident analysis. **Qdrant:** Enables vector similarity search for retrieving relevant past incidents. **FastAPI:** High-performance async web framework for real-time incident processing. **Render:** Serverless hosting with automatic GitHub deployments.
+
+## 🎯 Future Enhancements
+
+- WebSocket support for real-time streaming
+- Integration with monitoring tools (Prometheus, DataDog)
+- Multi-language incident reports
+- Advanced analytics dashboard
+- Automated runbook execution
+
+## 📄 License
+
+MIT
+
+---
+
+**Live:** https://saic-agent.onrender.com  
+**Repo:** https://github.com/sanjayk16-07/saic-secure-autonomous-incident-commander
+```
+
+Copy-paste ready! 🚀
