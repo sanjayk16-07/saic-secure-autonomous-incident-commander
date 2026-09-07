@@ -174,7 +174,8 @@
                     })
                 });
 
-                const data = await response.json();
+                const text = await response.text();
+                const data = JSON.parse(text);
                 const loadingEl = document.getElementById(loadingId);
                 if (loadingEl) loadingEl.remove();
 
@@ -188,13 +189,13 @@
             } catch (error) {
                 const loadingEl = document.getElementById(loadingId);
                 if (loadingEl) loadingEl.remove();
-                addMessage("❌ Connection error: " + error.message, "bot");
+                addMessage("❌ Parse error: " + error.message, "bot");
             }
 
             sendBtn.disabled = false;
             messageInput.focus();
         }
-
+        
         function addMessage(text, type, elementId = null) {
             const div = document.createElement("div");
             div.className = "message " + (type === "user" ? "user-message" : "bot-message");
